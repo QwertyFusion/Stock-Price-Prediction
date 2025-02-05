@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Prediction - QwertyFusion</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #282c34;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #383c44;
+            color: #61dafb;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            width: 80%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .prediction-results {
+            text-align: center;
+            margin-top: 30px;
+            color: #61dafb;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .card {
+            background-color: #33373f;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 20px 0; 
+            padding: 20px;
+            width: 80%;
+            max-width: 700px;
+            transition: transform 0.2s;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            color: #61dafb;
+            margin-bottom: 10px;
+        }
+
+        .metrics {
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        img {
+            max-width: 95%;
+            height: auto;
+            display: block;
+            margin: 15px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #383c44;
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            bottom: 0;
+        }
+
+        .github-button {
+            background: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background-color: #383c44;
+            border: 2px solid transparent;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .github-button:hover {
+            background-color: #484c54;
+            border-color: #61dafb; 
+            transform: scale(1.05);
+        }
+
+        .github-button img {
+            width: 40px; 
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 0;
+            box-shadow: none;
+            transition: none;
+        }
+
+        .github-button span {
+            color: white;
+            font: 14px
+        }
+
+        .colab-button {
+            background: none;
+            cursor: pointer;
+            font-size: 18px; 
+            margin-right: 20px;
+            padding: 10px 20px; 
+            border-radius: 10px; 
+            background-color: #383c44; 
+            border: 2px solid transparent; 
+            transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center; 
+            text-decoration: none; 
+            color: white;
+        }
+
+        .colab-button:hover {
+            background-color: #484c54; 
+            border-color: #61dafb; 
+            transform: scale(1.05); 
+        }
+
+        .colab-button img {
+            width: 40px; 
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 0; 
+            box-shadow: none;
+            transition: none;
+        }
+
+        .colab-button span {
+            color: white;
+            font: 14px
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Stock Price Prediction - QwertyFusion</h1>
+    </div>
+    <h2 class="prediction-results">Prediction Results</h2>
+    <div class="container">
+        <div class="card">
+            <h2>Long Short-Term Memory (LSTM) Metrics</h2>
+            <div class="metrics">
+                <p>Mean Absolute Error (MAE): {{ mae_lstm }}</p>
+                <p>Root Mean Squared Error (RMSE): {{ rmse_lstm }}</p>
+            </div>
+            <img src="{{ lstm_plot }}" alt="LSTM Predictions Plot">
+        </div>
+
+        <div class="card">
+            <h2>Linear Regression Metrics</h2>
+            <div class="metrics">
+                <p>Mean Absolute Error (MAE): {{ mae_lr }}</p>
+                <p>Root Mean Squared Error (RMSE): {{ rmse_lr }}</p>
+            </div>
+            <img src="{{ lr_plot }}" alt="Linear Regression Predictions Plot">
+        </div>
+    </div>
+
+    <div class="footer">
+        <a class="colab-button" href="https://colab.research.google.com/drive/1hrHVXT6uPqybb74sNE7HzIykihzblfL8?usp=sharing" target="_blank">
+            <img src="https://avatars.githubusercontent.com/u/33467679?s=280&v=4" alt="GitHub Logo"> <span>Google Colab</span>
+        </a>
+        <a class="github-button" href="https://github.com/QwertyFusion/Stock-Price-Prediction" target="_blank">
+            <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-white-icon.png" alt="GitHub Logo"> <span>QwertyFusion</span>
+        </a>
+    </div>
+
+</body>
+</html>
